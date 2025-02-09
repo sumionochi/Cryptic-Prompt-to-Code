@@ -1,11 +1,22 @@
 "use client"
 
-import { Link, Upload } from "lucide-react"
-import { useState } from "react"
+import { Check, Link, Rocket, TicketIcon, Upload } from "lucide-react"
+import { useContext, useState } from "react"
 import { Navbar } from "@/components/Navbar"
+import { MessageContext } from "@/lib/MessageContext"
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("")
+
+  const {messages, setMessages} = useContext(MessageContext);
+
+  const onGenerate = (input: string) => {
+    setMessages({
+      role: 'user',
+      content: input
+    })
+    console.log("uploaded", input)
+  }
 
   const suggestions = [
     "Create ToDo App in React",
@@ -16,9 +27,7 @@ export default function Page() {
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono">
-      {/* Navigation */}
-      <Navbar />
+    <div className="min-h-screen bg-black text-white font-mono p-4">
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto mt-0 pt-48 px-0">
@@ -26,7 +35,7 @@ export default function Page() {
         <p className="text-gray-400 text-center mb-12">Prompt, run, edit, and deploy full-stack web apps.</p>
 
         {/* Input Field */}
-        <div className="relative max-w-3xl mx-auto mb-8">
+        <div className="relative max-w-3xl mx-auto mb-8 flex-col">
           <input
             type="text"
             value={inputValue}
@@ -34,8 +43,19 @@ export default function Page() {
             placeholder="What you want to build?"
             className="w-full p-6 bg-[#1C1C1C] border-2 border-white text-white placeholder-gray-500 text-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
-          <Link className="absolute cursor-pointer right-6 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <Upload className="absolute cursor-pointer right-16 top-1/2 transform -translate-y-1/2 text-gray-400"/>
+          <div className="flex flex-row gap-4 pt-4 ">
+            <button
+              onClick={() => onGenerate(inputValue)}
+              className=" text-gray-400 hover:text-white transition-colors"
+            >
+              <Check className=" bg-white" />
+            </button>
+            <button
+              className=" text-gray-400 hover:text-white transition-colors"
+            >
+              <Upload />
+            </button>
+          </div>
         </div>
 
         {/* Suggestion Buttons */}
