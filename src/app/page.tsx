@@ -4,13 +4,21 @@ import { Check, Link, Rocket, TicketIcon, Upload } from "lucide-react"
 import { useContext, useState } from "react"
 import { Navbar } from "@/components/Navbar"
 import { MessageContext } from "@/lib/MessageContext"
+import { UserInfoContext } from "@/lib/UserInfoContext"
+import { SignInDialog } from "@/components/SignInDialog"
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("")
+  const [openDialog, setOpenDialog] = useState(false)
 
   const {messages, setMessages} = useContext(MessageContext);
+  const {userDetail, setUserDetail} = useContext(UserInfoContext);
 
   const onGenerate = (input: string) => {
+    if(!userDetail?.name) {
+      setOpenDialog(true);
+      return;
+    }
     setMessages({
       role: 'user',
       content: input
@@ -81,6 +89,11 @@ export default function Page() {
           </div>
         </div>
       </main>
+
+      <SignInDialog 
+        openDialog={openDialog} 
+        closeDialog={(value: boolean) => setOpenDialog(value)} 
+      />
     </div>
   )
 }
