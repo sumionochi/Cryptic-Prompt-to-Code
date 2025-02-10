@@ -66,5 +66,5 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
             </DialogHeader>
         </DialogContent>
         </Dialog>
-    );
+    )
 }

@@ -41,7 +41,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             </ThemeProvider>
           </MessageContext.Provider>
         </UserInfoContext.Provider>
-      </GoogleOAuthProvider>;
+      </GoogleOAuthProvider>
     </div>
-  );
+  )
 }

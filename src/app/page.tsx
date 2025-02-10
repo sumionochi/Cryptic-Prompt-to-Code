@@ -42,7 +42,6 @@ export default function Page() {
       });
       const data = await response.json();
       router.push(`/workspace/${data.id}`);
-      console.log("uploaded", input);
     } catch (error) {
       console.error('Error creating workspace:', error);
     }
