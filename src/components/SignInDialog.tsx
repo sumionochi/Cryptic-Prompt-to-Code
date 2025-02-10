@@ -22,11 +22,21 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
         console.log(tokenResponse);
         const userInfo = await axios.get(
             'https://www.googleapis.com/oauth2/v3/userinfo',
-            { headers: { Authorization: `Bearer` + tokenResponse?.access_token } },
+            { headers: { Authorization: `Bearer ${tokenResponse?.access_token}` } },
         );
-    
-        console.log(userInfo);
-        setUserDetail(userInfo.data);
+
+        console.log("Here is the account data",userInfo.data);
+        // Save user data to database
+        const res = await fetch('/api/auth', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo.data),
+          });
+      
+        const userData = await res.json();
+        setUserDetail(userData);
         closeDialog(false);
         },
         onError: errorResponse => console.log(errorResponse),
@@ -34,7 +44,7 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
 
     return (
         <Dialog open={openDialog} onOpenChange={closeDialog}>
-        <DialogContent className="border-2 rounded-full border-black dark:border-white bg-white dark:bg-black">
+        <DialogContent className="border-2 rounded-none border-black dark:border-white bg-white dark:bg-black">
             <DialogHeader className="space-y-4">
                 <DialogTitle className="text-3xl font-bold">
                     Sign in to Cryptic
