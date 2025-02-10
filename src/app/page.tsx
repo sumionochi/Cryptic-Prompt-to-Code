@@ -36,7 +36,7 @@ export default function Page() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          input:input_message,
+          input:[input_message],
           userId: userDetail.id
         }),
       });
