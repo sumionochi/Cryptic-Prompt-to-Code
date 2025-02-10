@@ -13,6 +13,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem('userDetail');
+    if (storedUser) {
+      setUserDetail(JSON.parse(storedUser));
+    }
     setMounted(true);
   }, []);
 

@@ -1,13 +1,24 @@
-import { Leaf, LogOut } from "lucide-react"
+import { Leaf, LogIn, LogOut } from "lucide-react"
 import Link from "next/link"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { UserInfoContext } from "@/lib/UserInfoContext"
 import Image from "next/image"
+import { SignInDialog } from "./SignInDialog"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function Navbar() {
   const { userDetail, setUserDetail } = useContext(UserInfoContext);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleSignOut = () => {
+    localStorage.removeItem('userDetail');
     setUserDetail(undefined);
   };
 
@@ -22,6 +33,8 @@ export function Navbar() {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 {userDetail.picture && (
+                  <DropdownMenu>
+                  <DropdownMenuTrigger>
                   <Image
                     src={userDetail.picture}
                     alt="Profile"
@@ -29,24 +42,37 @@ export function Navbar() {
                     height={32}
                     className="rounded-full"
                   />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="border-2 border-white bg-black p-4">
+                    <DropdownMenuLabel className="text-lg font-bold">My Account</DropdownMenuLabel>
+                    <DropdownMenuSeparator className="bg-white" />
+                    <DropdownMenuItem className="hover:bg-white hover:text-black transition-colors">{userDetail.name}</DropdownMenuItem>
+                    <DropdownMenuItem className="hover:bg-white hover:text-black transition-colors">{userDetail.email}</DropdownMenuItem>
+                    <DropdownMenuSeparator className="bg-white" />
+                    <DropdownMenuItem className="hover:bg-white cursor-pointer hover:text-black transition-colors" onClick={handleSignOut}>
+                      <LogOut className="w-4 h-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>                
                 )}
-                <span className="text-white font-mono">{userDetail.name}</span>
               </div>
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-2 px-4 py-2 border-2 border-white hover:bg-white hover:text-black transition-colors font-mono"
-              >
-                <LogOut className="w-4 h-4" />
-                Sign Out
-              </button>
             </div>
           ) : (
-            <button className="px-4 py-2 border-2 border-white hover:bg-white hover:text-black transition-colors font-mono">
+            <button 
+              onClick={() => setOpenDialog(true)}
+              className="px-4 gap-2 flex flex-row items-center py-2 border-2 border-white hover:bg-white hover:text-black transition-colors font-mono"
+            >
+              <LogIn className="w-5 h-5"/>
               Sign In
             </button>
           )}
         </div>
       </div>
+      <SignInDialog 
+        openDialog={openDialog} 
+        closeDialog={(value: boolean) => setOpenDialog(value)} 
+      />
     </nav>
   )
 }

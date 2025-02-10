@@ -36,6 +36,7 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
           });
       
         const userData = await res.json();
+        localStorage.setItem('userDetail', JSON.stringify(userData));
         setUserDetail(userData);
         closeDialog(false);
         },
@@ -50,7 +51,7 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
                     Sign in to Cryptic
                 </DialogTitle>
                 <DialogDescription className="text-lg">
-                    Create an Account to start obfuscating your code securely.
+                    Create an account to start obfuscating your code securely.
                 </DialogDescription>
                 <button
                     onClick={() => googleLogin()}
