@@ -3,17 +3,23 @@ import prisma from '@/lib/db';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const workspaceId = params.id;
+    const { id: workspaceId } = await params;
+
+    if (!workspaceId) {
+      return NextResponse.json(
+        { error: 'Workspace ID is required' },
+        { status: 400 }
+      );
+    }
 
     // Fetch workspace data from the database
     const workspace = await prisma.workspace.findUnique({
       where: {
-        id: workspaceId,
-      },
-
+        id: workspaceId
+      }
     });
 
     if (!workspace) {
@@ -27,7 +33,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching workspace:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch workspace' },
       { status: 500 }
     );
   }
