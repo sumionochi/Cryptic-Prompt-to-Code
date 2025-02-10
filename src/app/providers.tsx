@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import {Navbar} from '@/components/Navbar';
 import { MessageContext } from '@/lib/MessageContext';
 import { UserInfoContext } from '@/lib/UserInfoContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<any>();
@@ -21,20 +22,22 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <div>
-      <UserInfoContext.Provider value={{ userDetail, setUserDetail }}>
-        <MessageContext.Provider value={{ messages, setMessages }}>
-          <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem={false}
-          forcedTheme="dark"
-          disableTransitionOnChange
-        >
-            <Navbar />
-            {children}
-          </ThemeProvider>
-        </MessageContext.Provider>
-      </UserInfoContext.Provider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID_KEY || ""}>
+        <UserInfoContext.Provider value={{ userDetail, setUserDetail }}>
+          <MessageContext.Provider value={{ messages, setMessages }}>
+            <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem={false}
+            forcedTheme="dark"
+            disableTransitionOnChange
+          >
+              <Navbar />
+              {children}
+            </ThemeProvider>
+          </MessageContext.Provider>
+        </UserInfoContext.Provider>
+      </GoogleOAuthProvider>;
     </div>
   );
 }
