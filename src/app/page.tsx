@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar"
 import { MessageContext } from "@/lib/MessageContext"
 import { UserInfoContext } from "@/lib/UserInfoContext"
 import { SignInDialog } from "@/components/SignInDialog"
+import { useRouter } from "next/navigation"
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("")
@@ -13,17 +14,38 @@ export default function Page() {
 
   const {messages, setMessages} = useContext(MessageContext);
   const {userDetail, setUserDetail} = useContext(UserInfoContext);
+  const router = useRouter();
 
-  const onGenerate = (input: string) => {
+  const onGenerate = async (input: string) => {
     if(!userDetail?.name) {
       setOpenDialog(true);
       return;
     }
-    setMessages({
-      role: 'user',
-      content: input
-    })
-    console.log("uploaded", input)
+    try {
+      const input_message = {
+        role: 'user',
+        content: input
+      }
+      setMessages(input_message);
+
+      console.log(input_message, userDetail.id);
+      
+      const response = await fetch('/api/workspace', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          input:input_message,
+          userId: userDetail.id
+        }),
+      });
+      const data = await response.json();
+      router.push(`/workspace/${data.id}`);
+      console.log("uploaded", input);
+    } catch (error) {
+      console.error('Error creating workspace:', error);
+    }
   }
 
   const suggestions = [
