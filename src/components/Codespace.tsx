@@ -25,7 +25,9 @@ const Codespace = (props: Props) => {
           <Button size={"sm"} variant="ghost" onClick={()=>setActiveTab('preview')} className={`rounded-none glassmorphism ${activeTab=='preview' && 'text-teal-500'}`}>Preview</Button>
         </div>
       </div>
-      <SandpackProvider template="react" theme={theme === "dark" ? "dark" : "light"} files={files} customSetup={{dependencies:{...Files.DEPENDANCY}}}>
+      <SandpackProvider template="react" theme={theme === "dark" ? "dark" : "light"} files={files} customSetup={{dependencies:{...Files.DEPENDANCY}}} options={{
+          externalResources: ["https://cdn.tailwindcss.com"]
+        }}>
         <SandpackLayout>
           {activeTab=='code' && (
             <>
