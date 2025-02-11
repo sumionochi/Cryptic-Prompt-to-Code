@@ -20,6 +20,7 @@ import {
 import Image from "next/image";
 import { UserInfoContext } from '@/lib/UserInfoContext'
 import Prompt from '@/data/Prompt'
+import ReactMarkdown from 'react-markdown'
 
 interface Message {
   role: 'user' | 'ai'; 
@@ -161,7 +162,7 @@ const Chatspace = (props: Props) => {
               )}
             </div>
             <div className={`max-w-[80%] rounded-lg p-3 ${message.role === 'user' ? 'bg-primary text-primary-foreground rounded-tr-none border' : 'bg-muted rounded-tl-none border'}`}>
-              <p className="whitespace-pre-wrap">{message.content}</p>
+              <ReactMarkdown className="flex flex-col">{message.content}</ReactMarkdown>
             </div>
           </div>
         ))}
