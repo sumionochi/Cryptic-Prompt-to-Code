@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { Button } from "./ui/button";
 
 interface SignInDialogProps {
   openDialog: boolean;
@@ -37,6 +38,8 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
       
         const userData = await res.json();
         localStorage.setItem('userDetail', JSON.stringify(userData));
+        // Set authentication cookie
+        document.cookie = `userToken=${userData._id}; path=/; max-age=2592000`; // 30 days expiry
         setUserDetail(userData);
         closeDialog(false);
         },
@@ -45,7 +48,7 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
 
     return (
         <Dialog open={openDialog} onOpenChange={closeDialog}>
-        <DialogContent className="border-2 rounded-none border-black dark:border-white bg-white dark:bg-black">
+        <DialogContent className="border-2 rounded-lg border-black dark:border-white bg-white dark:bg-black">
             <DialogHeader className="space-y-4">
                 <DialogTitle className="text-3xl font-bold">
                     Sign in to Cryptic
@@ -53,16 +56,12 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
                 <DialogDescription className="text-lg">
                     Create an account to start obfuscating your code securely.
                 </DialogDescription>
-                <button
+                <Button
                     onClick={() => googleLogin()}
-                    className="w-full p-4 text-lg font-bold bg-white dark:bg-black border-2 border-black dark:border-white
-                    hover:translate-x-[-4px] hover:translate-y-[-4px] active:translate-x-[0px] active:translate-y-[0px]
-                    shadow-[4px_4px_0px_0px_rgba(0,0,0)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255)]
-                    hover:shadow-[8px_8px_0px_0px_rgba(0,0,0)] dark:hover:shadow-[8px_8px_0px_0px_rgba(255,255,255)]
-                    transition-all duration-200"
+                    className=""
                 >
                     Sign in with Google
-                </button>
+                </Button>
             </DialogHeader>
         </DialogContent>
         </Dialog>

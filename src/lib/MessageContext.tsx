@@ -1,16 +1,17 @@
 import { createContext } from "react";
 
+// MessageContext.tsx
 interface Message {
-  role: string;
+  role: 'user' | 'assistant'; // Adjust the role type as needed
   content: string;
 }
 
 interface MessageContextType {
   messages: Message[];
-  setMessages: (message: Message) => void;
+  setMessages: (messages: Message[]) => void;
 }
 
 export const MessageContext = createContext<MessageContextType>({
   messages: [],
-  setMessages: () => {},
+  setMessages: (messages: Message[]) => {}, // Default implementation
 });

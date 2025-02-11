@@ -5,7 +5,7 @@ import { useContext, useState } from "react"
 import { MessageContext } from "@/lib/MessageContext"
 import { UserInfoContext } from "@/lib/UserInfoContext"
 import { SignInDialog } from "@/components/SignInDialog"
-import { useRouter } from "next/navigation"
+import { useRouter } from 'next/navigation';
 import { useTheme } from "next-themes"
 
 export default function Page() {
@@ -14,23 +14,22 @@ export default function Page() {
 
   const { messages, setMessages } = useContext(MessageContext)
   const { userDetail, setUserDetail } = useContext(UserInfoContext)
-  const router = useRouter()
+  const router = useRouter();
   const { theme, setTheme } = useTheme()
 
   const onGenerate = async (input: string) => {
     if (!userDetail?.name) {
-      setOpenDialog(true)
-      return
+      setOpenDialog(true);
+      return;
     }
     try {
       const input_message = {
         role: "user",
         content: input,
-      }
-      setMessages(input_message)
-
-      console.log(input_message, userDetail.id)
-
+      };
+  
+      console.log(input_message, userDetail.id);
+  
       const response = await fetch("/api/workspace", {
         method: "POST",
         headers: {
@@ -40,13 +39,14 @@ export default function Page() {
           input: [input_message],
           userId: userDetail.id,
         }),
-      })
-      const data = await response.json()
-      router.push(`/workspace/${data.id}`)
+      });
+      const data = await response.json();
+      console.log("received data now moving to workplace", data);
+      router.push(`/workspace/${data.id}`);
     } catch (error) {
-      console.error("Error creating workspace:", error)
+      console.error("Error creating workspace:", error);
     }
-  }
+  };
 
   const suggestions = [
     "Create ToDo App in React",
