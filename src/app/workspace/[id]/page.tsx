@@ -12,11 +12,19 @@ export default function WorkspacePage() {
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-500/20 rounded-full blur-3xl opacity-50 pointer-events-none float" />
       <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-blue-500/20 rounded-full blur-3xl opacity-50 pointer-events-none float" style={{ animationDelay: "-3s" }} />
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10 h-full p-4'>
-        <div className="h-[92%] overflow-scroll scrollbar-hide">
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10 h-full p-4'>
+        <div className="h-[92%] overflow-scroll scrollbar-hide md:col-span-1">
           <Chatspace/>
         </div>
-        <div className="h-[91%]">
+        <div className="h-[91%] md:col-span-2">
+          <Codespace/>
+        </div>
+      </div>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10 h-full p-4'>
+        <div className="h-[92%] overflow-scroll scrollbar-hide md:col-span-1">
+          <Chatspace/>
+        </div>
+        <div className="h-[91%] md:col-span-2">
           <Codespace/>
         </div>
       </div>
