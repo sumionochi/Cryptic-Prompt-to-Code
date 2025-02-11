@@ -6,29 +6,14 @@ import Chatspace from '@/components/Chatspace'
 import Codespace from '@/components/Codespace'
 
 export default function WorkspacePage() {
-  const params = useParams()
-  const workspaceId = params.id
-
-  useEffect(() => {
-    // Fetch workspace data using the ID
-    const fetchWorkspace = async () => {
-      try {
-        const response = await fetch(`/api/workspace/${workspaceId}`)
-        const data = await response.json()
-        console.log('Workspace data:', data)
-      } catch (error) {
-        console.error('Error fetching workspace:', error)
-      }
-    }
-
-    if (workspaceId) {
-      fetchWorkspace()
-    }
-  }, [workspaceId])
 
   return (
-    <div className="min-h-screen mt-16 bg-black text-white font-mono p-4">
-      <div className='grid grid-cols-1 md:grid-cols-3'>
+    <div className="min-h-screen mt-16 bg-gradient-to-br from-background to-secondary text-foreground font-sans p-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]" />
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
+      <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-500/20 rounded-full blur-3xl opacity-50 pointer-events-none float" />
+      <div className="fixed bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-[400px] h-[400px] bg-blue-500/20 rounded-full blur-3xl opacity-50 pointer-events-none float" style={{ animationDelay: "-3s" }} />
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10'>
         <Chatspace/>
         <div>
           <Codespace/>

@@ -1,4 +1,5 @@
-import { Leaf, LogIn, LogOut } from "lucide-react"
+import { Leaf, LogIn, LogOut, Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
 import Link from "next/link"
 import { useContext, useState } from "react"
 import { UserInfoContext } from "@/lib/UserInfoContext"
@@ -16,6 +17,7 @@ import {
 export function Navbar() {
   const { userDetail, setUserDetail } = useContext(UserInfoContext);
   const [openDialog, setOpenDialog] = useState(false);
+  const { setTheme, theme } = useTheme();
 
   const handleSignOut = () => {
     localStorage.removeItem('userDetail');
@@ -23,12 +25,18 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-black z-50 border-b-2 border-white">
+    <nav className="fixed top-0 left-0 right-0 z-50 glassmorphism border-b border-white/20">
       <div className="mx-auto flex justify-between items-center p-4">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <Leaf className="w-8 h-8" />
         </Link>
         <div className="flex gap-4 items-center">
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2 hover:bg-white/10 rounded-md"
+          >
+            {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+          </button>
           {userDetail ? (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">

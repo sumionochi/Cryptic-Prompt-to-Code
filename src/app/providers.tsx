@@ -31,9 +31,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
           <MessageContext.Provider value={{ messages, setMessages }}>
             <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
-            enableSystem={false}
-            forcedTheme="dark"
+            defaultTheme="system"
+            enableSystem
             disableTransitionOnChange
           >
               <Navbar />
