@@ -96,7 +96,7 @@ export default function Page() {
             <button
               key={suggestion}
               onClick={() => setInputValue(suggestion)}
-              className="px-4 py-2 glassmorphism rounded-full hover:bg-accent/50 transition-colors text-sm"
+              className="px-4 py-2 glassmorphism hover:bg-accent/50 transition-colors text-sm"
             >
               {suggestion}
             </button>
