@@ -14,29 +14,41 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { CompileContext } from "@/lib/CompileContext";
 
 
 export function Navbar() {
   const { userDetail, setUserDetail } = useContext(UserInfoContext);
+  const { compile, setCompile } = useContext(CompileContext);
   const [openDialog, setOpenDialog] = useState(false);
   const { setTheme, theme } = useTheme();
   const router = useRouter(); // Added
 
+  const onCompile=(compile:string)=>{
+    setCompile({
+      type: compile,
+      timeStamp: Date.now()
+    })
+  }
+
   const handleSignOut = () => {
-    // Clear localStorage and user context
     localStorage.removeItem('userDetail');
-    setUserDetail(undefined); // Use undefined instead of null
-    // Clear the authentication cookie and redirect
+    setUserDetail(undefined); 
     document.cookie = 'userToken=; path=/; max-age=0';
     router.push('/');
   };
 
   return (
-    <nav className="fixed z-10 top-0 left-0 right-0 glassmorphism border-b border-white/20">
+    <nav className="fixed z-10 top-0 left-0 right-0 border-b">
       <div className="mx-auto flex justify-between items-center p-4">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <Leaf className="w-8 h-8" />
         </Link>
+        <div className="flex flex-row gap-2">
+          <Button variant={"ghost"} onClick={()=>onCompile('export')} className="glassmorphism">Export</Button>
+          <Button variant={"ghost"} onClick={()=>onCompile('deploy')} className="glassmorphism">Deploy</Button>
+        </div>
         <div className="flex gap-4 items-center">
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}

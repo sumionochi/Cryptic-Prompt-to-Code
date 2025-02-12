@@ -14,6 +14,8 @@ import { MessageContext } from '@/lib/MessageContext';
 import Prompt from '@/data/Prompt';
 import { useParams } from 'next/navigation';
 import { Loader } from 'lucide-react';
+import Preview from './Preview';
+import { CompileContext } from '@/lib/CompileContext';
 
 type Props = {}
 
@@ -33,6 +35,7 @@ const Codespace = (props: Props) => {
     setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
   };
   const [loading, setLoading] = useState(false);
+  const {compile, setCompile} = useContext(CompileContext);
 
   useEffect(() => {
     if (messages?.length > 0) {
@@ -42,6 +45,10 @@ const Codespace = (props: Props) => {
       }
     }
   }, [messages]);
+
+  useEffect(()=>{
+    setActiveTab('preview')
+  },[compile])
 
   useEffect(() => {
     const GetFiles = async () => {
@@ -123,14 +130,13 @@ const Codespace = (props: Props) => {
           externalResources: ["https://cdn.tailwindcss.com"]
         }}>
         <SandpackLayout>
-          {activeTab=='code' && (
+          {activeTab=='code' ? (
             <>
-            <SandpackFileExplorer style={{height:'84vh'}}/>
-            <SandpackCodeEditor style={{height:'84vh'}} />
+            <SandpackFileExplorer style={{height:'81.4vh'}}/>
+            <SandpackCodeEditor style={{height:'81.4vh'}} />
             </>
-          )}
-          {activeTab=='preview' && (
-            <SandpackPreview showNavigator={true} style={{height:'84vh'}} />
+          ):(
+            <Preview />
           )}
         </SandpackLayout>
       </SandpackProvider>

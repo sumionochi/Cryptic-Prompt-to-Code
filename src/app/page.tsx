@@ -105,10 +105,10 @@ export default function Page() {
         </div>
 
         <div className="mt-16 max-w-3xl mx-auto p-4 glassmorphism rounded-lg flex gap-3">
-          <div className="flex items-center gap-2">
+          <div className="flex justify-center items-center gap-2">
             <div className="text-yellow-500 font-bold">Note!</div>
             <div className="text-muted-foreground">
-              Due to high traffic, the app might not work properly. We appreciate your patience.
+              Work in Progress. Still in Beta.
             </div>
           </div>
         </div>

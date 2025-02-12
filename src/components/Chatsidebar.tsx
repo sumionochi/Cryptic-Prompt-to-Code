@@ -59,11 +59,18 @@ export function ChatSidebar() {
   const {userDetail, setUserDetail} = React.useContext(UserInfoContext);
 
   React.useEffect(() => {
-    userDetail && getAllworkspaces();
-  }, [userDetail])
-
+    if (userDetail) {
+      getAllworkspaces();
+    } else {
+      setIsLoading(false); 
+    }
+  }, [userDetail]);
+  
   const getAllworkspaces = async () => {
-    if (!userDetail?.id) return;
+    if (!userDetail?.id) {
+      setIsLoading(false); 
+      return;
+    }
     try {
       setIsLoading(true);
       const userId = userDetail.id;
@@ -75,7 +82,8 @@ export function ChatSidebar() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+  
 
   return (
     <Sidebar
@@ -91,7 +99,9 @@ export function ChatSidebar() {
             <div className="rounded-lg p-2">
               <Leaf className="text-black dark:text-white h-5 w-5" />
             </div>
-            <span className="text-lg text-black dark:text-white font-semibold">{userDetail?.name.split(" ")[0]}'s Space</span>
+            <>
+            {workspaces.length === 0 ? (<span className="text-lg text-black dark:text-white font-semibold">Chat Space</span>):(<span className="text-lg text-black dark:text-white font-semibold">{userDetail?.name.split(" ")[0]}'s Space</span>)}
+            </>
           </div>
         </div>
         <Button
@@ -116,6 +126,11 @@ export function ChatSidebar() {
               <Loader className="h-5 w-5 animate-spin text-gray-500 dark:text-gray-400" />
               <h2 className="text-black text-sm font-semibold dark:text-white">Syncing...</h2>
             </div>
+          ) : workspaces.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-10">
+              <h2 className="text-black text-sm font-semibold dark:text-white">No Workspace Exist</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-xs">Create a new workspace to get started</p>
+            </div>
           ) : (
             workspaces.map((workspace: any) => (
               <ChatItem
@@ -130,7 +145,6 @@ export function ChatSidebar() {
                 }}
               />
             ))
-
           )}
         </div>
       </SidebarContent>
