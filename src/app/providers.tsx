@@ -6,6 +6,8 @@ import {Navbar} from '@/components/Navbar';
 import { MessageContext } from '@/lib/MessageContext';
 import { UserInfoContext } from '@/lib/UserInfoContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { ChatSidebar } from '@/components/Chatsidebar';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [messages, setMessages] = useState<any>();
@@ -35,8 +37,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
             enableSystem
             disableTransitionOnChange
           >
-              <Navbar />
+              <SidebarProvider>
+                <ChatSidebar/>
+                <Navbar />
               {children}
+              </SidebarProvider>
             </ThemeProvider>
           </MessageContext.Provider>
         </UserInfoContext.Provider>

@@ -57,6 +57,7 @@ export default function Page() {
   ]
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary text-foreground font-sans p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-white/10 bg-[size:20px_20px] [mask-image:radial-gradient(white,transparent_70%)]" />
 
@@ -129,6 +130,7 @@ export default function Page() {
         style={{ animationDelay: "-3s" }}
       />
     </div>
+    </>
   )
 }
 
