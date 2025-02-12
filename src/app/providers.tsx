@@ -6,7 +6,7 @@ import {Navbar} from '@/components/Navbar';
 import { MessageContext } from '@/lib/MessageContext';
 import { UserInfoContext } from '@/lib/UserInfoContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { ChatSidebar } from '@/components/Chatsidebar';
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -31,18 +31,21 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID_KEY || ""}>
         <UserInfoContext.Provider value={{ userDetail, setUserDetail }}>
           <MessageContext.Provider value={{ messages, setMessages }}>
-            <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-              <SidebarProvider>
-                <ChatSidebar/>
-                <Navbar />
-              {children}
-              </SidebarProvider>
+            <SidebarProvider>
+              <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            > 
+              <ChatSidebar />
+                <main className='w-full relative'>
+                  <SidebarTrigger className='text-black dark:text-white absolute z-30' />  
+                  <Navbar />
+                  {children}
+                </main>   
             </ThemeProvider>
+            </SidebarProvider>
           </MessageContext.Provider>
         </UserInfoContext.Provider>
       </GoogleOAuthProvider>

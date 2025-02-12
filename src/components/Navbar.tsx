@@ -32,8 +32,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glassmorphism border-b border-white/20">
-      
+    <nav className="fixed z-10 top-0 left-0 right-0 glassmorphism border-b border-white/20">
       <div className="mx-auto flex justify-between items-center p-4">
         <Link href="/" className="hover:opacity-80 transition-opacity">
           <Leaf className="w-8 h-8" />

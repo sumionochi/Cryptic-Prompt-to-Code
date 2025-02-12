@@ -116,13 +116,6 @@ export default function Page() {
 
       <SignInDialog openDialog={openDialog} closeDialog={(value: boolean) => setOpenDialog(value)} />
 
-      <button
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="fixed bottom-4 right-4 p-2 glassmorphism rounded-full"
-      >
-        {theme === "dark" ? "🌞" : "🌙"}
-      </button>
-
       <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/20 rounded-full blur-3xl opacity-50 pointer-events-none" />
       <div className="fixed top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-purple-500/20 rounded-full blur-3xl opacity-50 pointer-events-none float" />
       <div

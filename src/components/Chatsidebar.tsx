@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { CreditCard, HelpCircle, LogOut, MessageCircle, Settings, Zap } from "lucide-react"
+import { CreditCard, HelpCircle, Leaf, LogOut, MessageCircle, Settings, Zap } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -16,13 +16,11 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { UserInfoContext } from "@/lib/UserInfoContext"
+import { Badge } from "./ui/badge"
 
-// Sample chat data
-const sampleChats = [
-  { id: 1, title: "Project Discussion", lastMessage: "Let's review the designs", time: "2m ago" },
-  { id: 2, title: "Team Standup", lastMessage: "Updates on the backend", time: "1h ago" },
-  { id: 3, title: "Client Meeting", lastMessage: "Presentation feedback", time: "2h ago" },
-]
+import { Loader } from "lucide-react"
+
+import { useRouter } from "next/navigation"
 
 interface ChatItemProps {
   title: string
@@ -38,54 +36,62 @@ function ChatItem({ title, lastMessage, time, isActive, onClick }: ChatItemProps
       onClick={onClick}
       className={cn(
         "w-full rounded-lg px-3 py-2 text-left transition-all duration-200",
-        "hover:bg-white/10",
-        "focus:outline-none focus:ring-2 focus:ring-white/20",
-        isActive && "bg-white/10",
+        "dark:hover:bg-white/10 hover:bg-gray-100",
+        "focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-white/20",
+        isActive && "dark:bg-white/10 bg-gray-100",
       )}
     >
-      <div className="flex items-center justify-between">
-        <span className="font-medium">{title}</span>
-        <span className="text-xs text-gray-400">{time}</span>
+      <div className="flex flex-col gap-2 items-start justify-start">
+        <Badge className="text-xs">{time}</Badge>
+        <span className="font-medium text-sm dark:text-white text-gray-900">{title}</span>
       </div>
-      <p className="mt-1 truncate text-sm text-gray-400">{lastMessage}</p>
+      <p className="truncate text-sm text-gray-500 dark:text-gray-400">{lastMessage}</p>
     </button>
   )
 }
 
 export function ChatSidebar() {
+  const router = useRouter()
   const [activeChat, setActiveChat] = React.useState<number | null>(null)
+  const [workspaces, setWorkspaces] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(true)
   const { open } = useSidebar()
   const {userDetail, setUserDetail} = React.useContext(UserInfoContext);
 
   React.useEffect(() => {
-    userDetail&&getAllworkspaces();
+    userDetail && getAllworkspaces();
   }, [userDetail])
 
   const getAllworkspaces = async () => {
     if (!userDetail?.id) return;
-    const userId = userDetail.id;
-    console.log("Requesting workspaces for userId:", userId);
-    const response = await fetch(`/api/getAllWorkspaces/${userId}`);
-    const data = await response.json();
-    console.log("Received workspaces:", data);
-    return data;
+    try {
+      setIsLoading(true);
+      const userId = userDetail.id;
+      const response = await fetch(`/api/getAllWorkspaces/${userId}`);
+      const data = await response.json();
+      setWorkspaces(data.workspaces);
+    } catch (error) {
+      console.error("Error fetching workspaces:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <Sidebar
       className={cn(
-        "border-r-0 bg-black/50 text-white backdrop-blur-xl backdrop-saturate-150",
+        "border-r-0 bg-black/50 z-20 text-white backdrop-blur-xl backdrop-saturate-150",
         "transition-all duration-300 ease-in-out",
         "border-r border-white/10",
       )}
     >
       <SidebarHeader className="p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="rounded-lg bg-white/10 p-2">
-              <Zap className="h-5 w-5" />
+          <div className="flex items-center gap-0">
+            <div className="rounded-lg p-2">
+              <Leaf className="text-black dark:text-white h-5 w-5" />
             </div>
-            <span className="text-lg font-semibold">ChatApp</span>
+            <span className="text-lg text-black dark:text-white font-semibold">{userDetail?.name.split(" ")[0]}'s Space</span>
           </div>
         </div>
         <Button
@@ -96,25 +102,36 @@ export function ChatSidebar() {
             "active:scale-[0.97]",
           )}
           size="lg"
+          onClick={() => router.push('/')}
         >
           <MessageCircle className="h-5 w-5" />
           Start New Chat
         </Button>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 pt-6">
-        <h2 className="mb-4 text-xl font-semibold">Your Chats</h2>
-        <div className="space-y-2">
-          {sampleChats.map((chat) => (
-            <ChatItem
-              key={chat.id}
-              title={chat.title}
-              lastMessage={chat.lastMessage}
-              time={chat.time}
-              isActive={activeChat === chat.id}
-              onClick={() => setActiveChat(chat.id)}
-            />
-          ))}
+      <SidebarContent className="px-4 pt-6 scrollbar-hide">
+        <div className="space-y-2 scrollbar-hide">
+          {isLoading ? (
+            <div className="flex flex-row gap-1 items-center justify-center py-10">
+              <Loader className="h-5 w-5 animate-spin text-gray-500 dark:text-gray-400" />
+              <h2 className="text-black text-sm font-semibold dark:text-white">Syncing...</h2>
+            </div>
+          ) : (
+            workspaces.map((workspace: any) => (
+              <ChatItem
+                key={workspace.id}
+                title={workspace.message[0].content}
+                lastMessage={workspace.message[1].content || 'No description'}
+                time={new Date(workspace.createdAt).toLocaleDateString()}
+                isActive={activeChat === workspace.id}
+                onClick={() => {
+                  setActiveChat(workspace.id)
+                  router.push(`/workspace/${workspace.id}`)
+                }}
+              />
+            ))
+
+          )}
         </div>
       </SidebarContent>
 
@@ -131,8 +148,8 @@ export function ChatSidebar() {
                 <Button
                   variant="ghost"
                   className={cn(
-                    "w-full justify-start gap-3 text-base",
-                    "text-gray-300 hover:bg-white/10 hover:text-white",
+                    "w-full justify-start gap-3 text-sm",
+                    "text-black dark:text-white",
                     "transition-all duration-200",
                     "focus:bg-white/10 focus:text-white focus:outline-none",
                   )}

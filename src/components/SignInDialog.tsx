@@ -49,20 +49,15 @@ export function SignInDialog({ openDialog, closeDialog }: SignInDialogProps) {
     return (
         <Dialog open={openDialog} onOpenChange={closeDialog}>
         <DialogContent className="border-2 rounded-lg border-black dark:border-white bg-white dark:bg-black">
-            <DialogHeader className="space-y-4">
-                <DialogTitle className="text-3xl font-bold">
-                    Sign in to Cryptic
-                </DialogTitle>
-                <DialogDescription className="text-lg">
-                    Create an account to start obfuscating your code securely.
-                </DialogDescription>
-                <Button
-                    onClick={() => googleLogin()}
-                    className=""
-                >
-                    Sign in with Google
-                </Button>
-            </DialogHeader>
+            <DialogTitle className="text-3xl font-bold">
+                Sign in to Cryptic
+            </DialogTitle>
+            <DialogDescription className="text-lg">
+                Create an account to start obfuscating your code securely.
+            </DialogDescription>
+            <Button onClick={() => googleLogin()}>
+                Sign in with Google
+            </Button>
         </DialogContent>
         </Dialog>
     )
