@@ -116,7 +116,7 @@ const Chatspace = (props: Props) => {
   }, [messages]);
 
   return (
-    <div className="flex scrollbar-hide relative h-[100%] border mt-1 flex-col overflow-hidden bg-background">
+    <div className="flex scrollbar-hide relative h-[100%] border mt-1 flex-col bg-background">
       <div className="flex justify-between items-center p-4">
         <div className='flex flex-row gap-2'>
           <Button variant="ghost" className='glassmorphism'>

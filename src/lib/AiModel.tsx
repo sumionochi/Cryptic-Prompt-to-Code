@@ -18,9 +18,23 @@ const {
     maxOutputTokens: 8192,
     responseMimeType: "text/plain",
   };
+
+  const New_generationConfig = {
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+    responseMimeType: "application/json",
+  };
   
    export const chatSession = model.startChat({
       generationConfig,
       history: [
       ],
     });
+
+    export const New_AiCode = model.startChat({
+      generationConfig: New_generationConfig,
+      history: [
+      ],
+    })

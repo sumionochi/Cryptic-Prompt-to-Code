@@ -20,14 +20,6 @@ export default function WorkspacePage() {
           <Codespace/>
         </div>
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10 h-full p-4'>
-        <div className="h-[92%] overflow-scroll scrollbar-hide md:col-span-1">
-          <Chatspace/>
-        </div>
-        <div className="h-[91%] md:col-span-2">
-          <Codespace/>
-        </div>
-      </div>
     </div>
   )
 }
