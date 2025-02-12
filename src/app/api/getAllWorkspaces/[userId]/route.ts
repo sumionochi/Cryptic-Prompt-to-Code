@@ -1,12 +1,12 @@
 import prisma from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
     request: Request,
-    { params }: { params: { userId: string } } 
+    { params }: { params: Promise<{ userId : string }> } 
 ) {
     try {
-        const { userId } = params;  
+        const { userId } = await params;  
         console.log("Received userId in API route:", userId);
 
         if (!userId) {
