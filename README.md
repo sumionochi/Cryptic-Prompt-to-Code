@@ -6,6 +6,8 @@
 ![AI Powered](https://img.shields.io/badge/AI-Gemini%20&#124;%20GPT-ff69b4)
 ![Live Preview](https://img.shields.io/badge/Preview-Sandpack-orange)
 
+<img width="1402" height="802" alt="image" src="https://github.com/user-attachments/assets/48532f7d-4f2e-4650-8de2-171acff7d09f" />
+
 <img width="1399" height="803" alt="image" src="https://github.com/user-attachments/assets/1edf6c8d-8d57-43f7-843d-da5af5fd2c07" />
 
 **Cryptic** is an open‑source, AI‑driven platform that can **generate** complete codebases from natural‑language prompts *or* **obfuscate** existing code while keeping behaviour intact.  
